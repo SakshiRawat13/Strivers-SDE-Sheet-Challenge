@@ -1,0 +1,18 @@
+#include <bits/stdc++.h>
+
+int modularExponentiation(int x, int n, int m) {
+	long long int ans=1;
+	long long l= x;
+	
+	while(n>0){
+		if(n%2==1){
+           ans= (ans*l)%m;
+		}
+        n/=2;
+		l= (l*l) % m;
+		
+	}
+	return ans%m;
+}
+// TC= O(LOGN)
+// SC= O(1)
