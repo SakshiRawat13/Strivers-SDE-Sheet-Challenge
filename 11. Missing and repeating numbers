@@ -1,0 +1,26 @@
+#include <bits/stdc++.h>
+
+pair<int,int> missingAndRepeating(vector<int> &arr, int n)
+{
+	sort(arr.begin(), arr.end());
+	int rep=0, miss=0;
+	int j=0;
+	for(int i=1; i<=n && j<arr.size(); ){
+         if(arr[j]==i){
+			 i++;
+			 j++;
+		 }
+		 else{
+			 if(arr[j]>i){
+				 miss= i;
+				 i++;
+			 }
+			 else{
+				 rep= arr[j];
+				 j++;
+			 }
+		 }
+	}
+	if(miss==0) return {n, rep};
+	return {miss, rep};
+}
