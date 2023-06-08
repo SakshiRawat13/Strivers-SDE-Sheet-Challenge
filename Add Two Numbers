@@ -1,0 +1,76 @@
+Node *addTwoNumbers(Node *num1, Node *num2)
+{   if(num1==NULL) return num2;
+    if(num2==NULL) return num1;
+    Node* head=NULL, *p;;
+    int data= 0, carry=0;
+    while(num1 && num2){
+        data= num1->data + num2->data + carry;
+        if(data>9){
+            carry = 1;
+            data%=10;
+        }
+        else
+        carry= 0;
+        Node* temp= new Node(data);
+        if(head==NULL){
+            head= temp;
+        }
+
+        else {
+          p->next = temp;
+        }
+        p = temp;
+        num1= num1->next;
+        num2= num2->next;
+    }
+    while(num1){
+        data= num1->data + carry;
+        if(data>9){
+            carry = 1;
+            data%=10;
+        }
+        else
+        carry= 0;
+
+        Node* temp= new Node(data);
+        if(head==NULL){
+            head= temp;
+        }
+
+        else {
+          p->next = temp;
+        }
+        p = temp;
+        num1= num1->next;
+       
+    }
+    while(num2){
+        data= num2->data + carry;
+        if(data>9){
+            carry = 1;
+            data%=10;
+        }
+        else
+        carry= 0;
+        
+        Node* temp= new Node(data);
+        if(head==NULL){
+            head= temp;
+        }
+
+        else {
+          p->next = temp;
+          
+        }
+        p = temp;
+        num2= num2->next;
+    }
+    if(carry==1)
+    {
+       Node* temp= new Node(1); 
+       p->next= temp;
+    }
+    return head;
+}
+// tc: o(m+n)
+// sc: o(max(m, n))
