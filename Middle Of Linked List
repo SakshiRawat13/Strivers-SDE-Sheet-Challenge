@@ -1,0 +1,12 @@
+Node *findMiddle(Node *head) {
+    if(head==NULL || head->next==NULL) return head;
+    Node* p= head, * q= head->next;
+    while(q){
+        p=p->next;
+        q= q->next;
+        if(q) q= q->next;
+    }
+    return p;
+}
+// tc: o(n)
+// sc: O(1)
