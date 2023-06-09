@@ -1,0 +1,16 @@
+Node* removeKthNode(Node* head, int k)
+{   
+    Node* p = head; 
+    while(k--){
+      p = p->next;
+    }
+    if(!p) return head->next;
+    Node* q= head;
+    while(p->next){
+        q= q->next;
+        p= p->next;
+    }
+    q->next= q->next->next;
+    return head;
+}
+// tc: o(n) , sc: o(1)
