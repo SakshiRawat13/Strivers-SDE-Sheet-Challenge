@@ -1,0 +1,13 @@
+#include <bits/stdc++.h>
+Node *firstNode(Node *head)
+{   if(head==NULL || head->next==NULL) return nullptr;
+    unordered_map<Node*, int> mp;
+    Node* p= head;
+    while(p){
+        if(mp.find(p)!=mp.end()) return p;
+        mp[p]=1;
+        p=p->next;
+    }
+    return nullptr;
+}
+// tc : o(n), sc: o(n)
