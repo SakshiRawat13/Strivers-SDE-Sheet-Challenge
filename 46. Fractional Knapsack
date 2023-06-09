@@ -1,0 +1,22 @@
+#include <bits/stdc++.h> 
+static bool cmp(pair<int,int> a, pair<int, int> b){
+    double val1= (double)a.second/a.first;
+    double val2= (double)b.second/b.first;
+    return val1>val2;
+}
+double maximumValue (vector<pair<int, int>>& items, int n, int w)
+{
+    sort(items.begin(), items.end(), cmp);
+    double profit= 0;
+    for(auto it: items){
+        if(w-it.first>=0){
+            w-= it.first;
+            profit+= it.second;
+        }
+        else{
+            profit+= (it.second)*((double)w/it.first);
+            break;
+        }
+    }
+    return profit;
+}// tc: o(nlogn), sc: o(1)
