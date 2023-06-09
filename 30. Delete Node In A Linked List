@@ -1,0 +1,8 @@
+void deleteNode(LinkedListNode<int> * node) {
+    LinkedListNode<int> * p= node, *q;
+    p->data= p->next->data;
+    LinkedListNode<int> *temp= p->next;
+    p->next= p->next->next;
+    delete temp; 
+}
+// tc: o(1), sc: o(1)
