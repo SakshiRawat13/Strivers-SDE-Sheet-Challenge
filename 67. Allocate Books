@@ -1,0 +1,33 @@
+#include <bits/stdc++.h> 
+bool isPossible(long long int mid, int n, int m,  vector<int> &time){
+  int currDay=1;
+  long long int currTime=0;
+  for(int i=0; i<m; i++){
+        if(currTime + time[i]<= mid){
+			currTime+= time[i];
+		}
+		else{
+			currDay++;
+			currTime= time[i];
+			if(currDay>n || time[i]>mid)
+			return false;
+		}
+  }
+  return true;
+}
+long long ayushGivesNinjatest(int n, int m, vector<int> time) 
+{	
+	long long int l= 0;
+	long long int h= accumulate(time.begin(), time.end(), 0LL);
+	long long int ans= -1;
+	while(l<=h){
+		long long int mid= l + (h-l)/2;
+		if(isPossible(mid, n, m, time)){
+               ans= mid;
+			   h= mid-1;
+		}
+		else
+		l= mid+1;
+	}
+	return ans;
+}
