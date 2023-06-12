@@ -1,0 +1,29 @@
+#include <bits/stdc++.h>
+typedef pair<int, int> pii;
+static bool cmp(pii &a, pii &b){
+    return a.second<b.second;
+}
+int maximumActivities(vector<int> &start, vector<int> &finish) {
+    int n= start.size();
+    vector <pii> activity(n);
+    for(int i=0; i<n; i++){
+        activity[i]= {start[i], finish[i]};
+    }
+    sort(activity.begin(), activity.end(), cmp);
+
+    int count=1;
+    int currFinish= activity[0].second;
+    int i=1; 
+    while(i<n){
+        if(activity[i].first>=currFinish){
+            count++;
+            currFinish= activity[i].second;
+        }
+        i++;
+    }
+    return count;
+}
+//tc: o(nlogn), sc:o(n)
+// sort activities on the basis of their finishing time
+// pick the first activity, start the next activity if its start time is greater than
+// or == to end time of curr activity
