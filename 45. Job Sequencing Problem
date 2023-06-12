@@ -1,0 +1,35 @@
+#include <bits/stdc++.h> 
+static bool cmp(vector <int> &a, vector <int> &b){
+    return a[1]>b[1];
+}
+int jobScheduling(vector<vector<int>> &jobs)
+{   int n= jobs.size();
+    sort(jobs.begin(), jobs.end(), cmp);
+    int maxDeadline=0;
+    for(int i=0; i<n; i++){
+        maxDeadline= max(maxDeadline, jobs[i][0]);
+    }
+    vector <bool> space(maxDeadline+1, 0);
+    int total=0;
+    for(int i=0; i<n; i++){
+        auto temp= jobs[i];
+        int deadline= temp[0];
+        int profit= temp[1];
+        
+        int j=deadline-1;
+        while(j>=0){
+                if(space[j]==0)
+                break;
+                else j--;
+        } 
+        if(j!=-1){
+            space[j]=1;
+            total+= profit;
+        }
+    }
+    return total;
+}
+// tc: o(n*deadline for loop + nlogn for sorting) , sc= max(deadlines)
+// sort the job in decreasing order of the profit
+// pick the first job place it as close to its deadline
+// if no place available, move to the next job
