@@ -1,0 +1,12 @@
+#include <bits/stdc++.h>
+int getMedian(vector<vector<int>> &matrix)
+{   vector <int> vec;
+    int n= matrix.size();
+    int m= matrix[0].size();
+    for(int i=0; i<n; i++){
+        for(int j=0; j<m; j++)
+        vec.push_back(matrix[i][j]);
+    }
+    sort(vec.begin(), vec.end());
+    return vec[(n*m)/2];
+} // tc: o((n*m)log(n*m)) , sc: o(n*m)
