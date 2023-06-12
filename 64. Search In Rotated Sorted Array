@@ -1,0 +1,31 @@
+int findPivot(int s, int e, int* arr){
+    while(s<e){
+        int mid= s + (e-s)/2;
+        if(arr[mid]>=arr[0]){
+            s= mid+1;
+        }
+        else
+        e=mid;
+
+    }
+    return e;
+}
+int binSearch(int s, int e, int* arr, int key){
+    while(s<=e){
+        int mid= s + (e-s)/2;
+        if(arr[mid]==key)
+        return mid;
+        else if(arr[mid]>key)
+        e= mid-1;
+        else s= mid+1;
+    }
+    return -1;
+}
+int search(int* arr, int n, int key) {
+    int pivot= findPivot(0, n-1, arr);
+    if(key>= arr[pivot] && key<=arr[n-1])
+    return binSearch(pivot, n-1, arr, key);
+    else
+    return binSearch(0, pivot, arr, key);
+}
+// tc: o(logn) , sc: o(1)
