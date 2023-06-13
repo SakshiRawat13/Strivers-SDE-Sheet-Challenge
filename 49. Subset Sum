@@ -1,0 +1,19 @@
+#include <bits/stdc++.h> 
+void solve(int i, vector<int> &num, vector <int> &ans, int sum){
+    if(i == num.size())
+    return ;
+    // nottake
+    solve(i+1, num, ans, sum);
+    // when I include arr[i] in my sum
+    ans.push_back(sum+num[i]);
+    solve(i+1, num, ans, sum+num[i]);
+}
+vector<int> subsetSum(vector<int> &num)
+{
+    vector <int> ans;
+    ans.push_back(0);
+    solve(0, num, ans, 0);
+    sort(ans.begin(), ans.end());
+    return ans;
+}
+// tc: o(2^n), sc: o(n) auxillary stcak space
