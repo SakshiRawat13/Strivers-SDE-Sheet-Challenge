@@ -1,0 +1,25 @@
+#include <bits/stdc++.h>
+string reverseString(string &s){
+	stack <string> st;
+	int n= s.length();
+	for(int i=0; i<n; i++){
+		while(i<n && s[i]==' '){
+			i++;
+		}
+		string curr="";
+		while(i<n && isalpha(s[i])){
+              curr+=s[i++];
+		}
+		if(curr!="")
+		st.push(curr);
+	}
+	string ans="";
+	while(!st.empty()){
+		ans+= st.top();
+		st.pop();
+		if(!st.empty())
+		ans+=' ';
+	}
+	return ans;
+}
+// tc: o(n), sc: o(n)
