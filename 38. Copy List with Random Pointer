@@ -1,0 +1,17 @@
+LinkedListNode<int> *cloneRandomList(LinkedListNode<int> *head)
+{   unordered_map <LinkedListNode<int> *, LinkedListNode<int> *> mp;
+    LinkedListNode<int> *temp= head;
+    while(temp){
+        mp[temp]= new LinkedListNode<int> (temp->data);
+        temp= temp->next;
+    }
+    temp = head;
+    while(temp){
+        mp[temp]->next= mp[temp->next];
+        mp[temp]->random= mp[temp->random];
+        temp = temp->next;
+    }
+    return mp[head];
+
+}
+//tc: o(n), sc: O(n)
