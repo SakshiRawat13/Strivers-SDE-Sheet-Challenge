@@ -1,0 +1,19 @@
+#include <bits/stdc++.h>
+vector <int> coins= {1, 2, 5, 10, 20, 50, 100, 500, 1000};
+int findMinimumCoins(int amount) 
+{
+    int n= coins.size();
+    int i=n-1, count=0;
+    while(i>=0 && amount>0){
+        if(coins[i]<=amount){
+             amount-= coins[i];
+             count++;
+        }
+        else
+        i--;
+
+    }
+    return count;
+}
+
+// tc: o(amount), sc: o(1)
