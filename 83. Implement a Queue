@@ -1,0 +1,42 @@
+#include <bits/stdc++.h> 
+class Queue {
+public:
+    vector <int> vc;
+    int frontpos= -1, lastPos= -1;
+    Queue() {
+        // Implement the Constructor
+    }
+
+    /*----------------- Public Functions of Queue -----------------*/
+
+    bool isEmpty() {
+        if(frontpos== -1 && lastPos==-1)
+        return true;
+        if(frontpos>lastPos)
+        return true;
+        return false;
+    }
+
+    void enqueue(int data) {
+        vc.push_back(data);
+        if(frontpos== -1 && lastPos==-1){
+            frontpos= lastPos= 0;
+        }
+        else
+        lastPos++;
+    }
+
+    int dequeue() {
+        if(isEmpty()) return -1;
+
+        int x= vc[frontpos];
+        frontpos++;
+        return x;
+    }
+
+    int front() {
+        if(isEmpty()) return -1;
+        return vc[frontpos];
+    }
+};
+// tc: o(1), sc: o(n)
