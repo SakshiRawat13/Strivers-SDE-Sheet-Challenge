@@ -1,0 +1,33 @@
+#include <bits/stdc++.h> 
+bool cmp(pair< pair<int, int> , int> m1, pair< pair<int, int> , int> m2){
+    if(m1.first.first < m2.first.first) return true;
+
+    else if(m1.first.first > m2.first.first) return false;
+
+    else if(m1.second < m2.second) return true;
+    // if both end time are == then sort acc to the lower position
+    return false;
+}
+vector<int> maximumMeetings(vector<int> &start, vector<int> &end) {
+    vector <int> ans;
+    vector <pair< pair<int, int> , int>> activity;
+    int n= start.size();
+    for(int i=0; i<n; i++){
+      activity.push_back({{end[i], start[i]}, i+1});
+    }
+
+    sort(activity.begin(), activity.end(), cmp);
+
+    ans.push_back(activity[0].second);
+    int currFinishTime= activity[0].first.first;
+    int i=1;
+    while(i<n){
+        if(activity[i].first.second > currFinishTime){
+            ans.push_back(activity[i].second);
+            currFinishTime= activity[i].first.first;
+        }
+        i++;
+    }
+    return ans;
+}
+// tc: o(nlogn + n) sc: o(n)
