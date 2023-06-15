@@ -1,0 +1,38 @@
+void leftTraversal(TreeNode<int>* root, vector <int> &ans){
+    if(root==NULL || (!root->left && !root->right)) return ;
+    ans.push_back(root->data);
+    if(root->left)
+    leftTraversal(root->left, ans);
+    else if(root->right)
+    leftTraversal(root->right, ans);
+    
+}
+void rightTraversal(TreeNode<int>* root, vector <int> &ans){
+    if(root==NULL || (!root->left && !root->right)) return ;
+    
+    if(root->right)
+    rightTraversal(root->right, ans);
+    else if(root->left)
+    rightTraversal(root->left, ans);
+    ans.push_back(root->data);
+}
+void leafTraversal(TreeNode<int>* root, vector <int> &ans){
+    if(root==nullptr) return;
+    if(!root->left && !root->right){
+        ans.push_back(root->data);
+        return;
+    }
+    leafTraversal(root->left, ans);
+    leafTraversal(root->right, ans);
+}
+vector<int> traverseBoundary(TreeNode<int>* root){
+    vector <int> ans;
+    if(root==NULL) return ans;
+    ans.push_back(root->data);
+    if(!root->left && !root->right) return ans;
+    leftTraversal(root->left, ans);
+    leafTraversal(root, ans);
+    rightTraversal(root->right, ans);
+    return ans;
+}
+// tc: o(n), sc: o(n), n is the total number of nodes in the binary tree
