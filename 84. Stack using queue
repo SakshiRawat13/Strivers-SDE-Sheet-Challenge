@@ -1,0 +1,48 @@
+#include <bits/stdc++.h> 
+class Stack {
+	queue <int> q1;
+    queue <int> q2;
+
+   public:
+    Stack() {
+        
+    }
+
+    /*----------------- Public Functions of Stack -----------------*/
+
+    int getSize() {
+        return q1.size();
+    }
+
+    bool isEmpty() {
+        if(q1.size()==0) return true;
+        return false;
+    }
+
+    void push(int element) {
+        while(!q1.empty()){
+            int x= q1.front();
+            q1.pop();
+            q2.push(x);
+        }
+        q1.push(element);
+        while(!q2.empty()){
+            int x= q2.front();
+            q2.pop();
+            q1.push(x);
+        }
+    }
+
+    int pop() {
+        if(isEmpty()) return -1;
+        int x= q1.front();
+        q1.pop();
+        return x;
+    }
+
+    int top() {
+        if(isEmpty()) return -1;
+        return q1.front();
+    }
+};
+// tc: o(q*n), sc: o(n), q is the number of queries, n is max size of queue
