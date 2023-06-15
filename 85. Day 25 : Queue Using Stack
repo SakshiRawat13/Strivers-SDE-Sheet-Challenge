@@ -1,0 +1,40 @@
+#include <stack>
+class Queue {
+    stack <int> st1, st2;
+    
+    public:
+    Queue() {
+        
+    }
+
+    void enQueue(int val) {
+        while(!st1.empty()){
+            int x= st1.top();
+            st1.pop();
+            st2.push(x);
+        }
+        st1.push(val);
+        while(!st2.empty()){
+            int x= st2.top();
+            st2.pop();
+            st1.push(x);
+        }
+    }
+
+    int deQueue() {
+        if(isEmpty()) return -1;
+        int x= st1.top();
+        st1.pop();
+        return x;
+    }
+
+    int peek() {
+        if(isEmpty()) return -1;
+        return st1.top();
+    }
+
+    bool isEmpty() {
+        return st1.size()==0;
+    }
+};
+// tc: o(q*n), sc: o(n), q is number of queries and n is max size of stack
