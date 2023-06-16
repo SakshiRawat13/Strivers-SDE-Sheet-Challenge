@@ -1,0 +1,27 @@
+#include <bits/stdc++.h> 
+
+int romanToInt(string s) {
+    unordered_map <char, int> mp;
+    mp['I']=1;
+    mp['V']=5;
+    mp['X']=10;
+    mp['L']=50;
+    mp['C']=100;
+    mp['D']=500;
+    mp['M']=1000;
+    
+    if(s.length()==1)
+    return mp[s[0]];
+    int n= s.length();
+    int total= 0;
+    for(int i=1; i<n; i++){
+        if(mp[s[i-1]]<mp[s[i]]){
+            total-= mp[s[i-1]];
+        }
+        else
+        total+= mp[s[i-1]];
+    }
+    total+= mp[s[n-1]];
+    return total;
+}
+// tc: o(n), sc: o(1)
