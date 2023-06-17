@@ -1,0 +1,14 @@
+int floorInBST(TreeNode<int> * root, int x)
+{   if(root==NULL) return INT_MIN;
+    if(root->val > x){
+        return floorInBST(root->left, x);
+    }
+    else if(root->val < x){
+        int ans= root->val;
+        return max(ans, floorInBST(root->right, x));
+    }
+    int ans= root->val;
+    return root->val;
+       
+}
+// tc: o(height of tree), sc: o(n) stack space 
