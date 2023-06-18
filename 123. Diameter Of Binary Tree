@@ -1,0 +1,17 @@
+pair<int, int> faster(TreeNode<int> *root){
+    if(root==NULL)
+    return {0, 0};
+
+    pair<int, int> leftop= faster(root->left);
+    pair<int, int> rightop= faster(root->right);
+    pair<int, int> ans;
+    // pair==> diameter and height of the subtree
+    ans.second= max(1 + leftop.second , 1 + rightop.second);
+    ans.first= max({leftop.first, rightop.first, leftop.second +  rightop.second});
+    return ans;
+}
+int diameterOfBinaryTree(TreeNode<int> *root)
+{
+      return faster(root).first;
+}
+// tc: o(n), sc: o(n) stack space
