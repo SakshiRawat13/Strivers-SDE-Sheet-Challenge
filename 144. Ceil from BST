@@ -1,0 +1,16 @@
+int f(BinaryTreeNode<int> *node, int x){
+    if(node==NULL)
+    return INT_MAX;
+    if(node->data==x)
+    return x;
+    if(node->data > x){
+        return min(node->data, f(node->left, x)); 
+    }
+    return f(node->right, x);
+    
+}
+int findCeil(BinaryTreeNode<int> *node, int x){
+   int ans= f(node, x);
+   return (ans==INT_MAX)? -1 : ans;
+}
+// tc: sc: O(logn)
