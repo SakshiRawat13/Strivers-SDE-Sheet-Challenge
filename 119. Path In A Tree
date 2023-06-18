@@ -1,0 +1,26 @@
+#include <bits/stdc++.h> 
+bool f(TreeNode<int> *root, int x, vector <int> &ans){
+	if(root==NULL)
+	return false;
+	if(root->data==x){
+		  return true;
+	}
+    if (f(root->left, x, ans)) {
+        ans.push_back(root->left->data);
+		return true;
+    }
+    if (f(root->right, x, ans)) {
+        ans.push_back(root->right->data);
+    	return true;
+    }
+    return false;
+}
+vector<int> pathInATree(TreeNode<int> *root, int x)
+{  
+    vector <int> ans;
+    f(root, x, ans);
+	ans.push_back(root->data);
+	reverse(ans.begin(), ans.end());
+	return ans;
+}
+// tc: o(n), sc: o(n)
