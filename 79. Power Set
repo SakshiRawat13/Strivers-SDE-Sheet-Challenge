@@ -1,0 +1,19 @@
+#include <bits/stdc++.h>
+void solve(int i, vector <int> &v, vector <int>curr, 
+vector<vector<int>> &ans){
+    if(i==v.size()){
+        ans.push_back(curr);
+        return;
+    }
+    solve(i+1, v, curr, ans);
+    curr.push_back(v[i]);
+    solve(i+1, v, curr, ans);
+}
+vector<vector<int>> pwset(vector<int>v)
+{   
+    vector<vector<int>> ans;
+    vector <int> curr;
+    solve(0, v, curr, ans);
+    return ans;
+}
+// tc: o(2^n), sc: o(n*(2^n))
