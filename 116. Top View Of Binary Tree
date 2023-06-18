@@ -1,0 +1,27 @@
+vector<int> getTopView(TreeNode<int> *root) {
+    map <int, int> mp;
+    vector <int> ans;
+    if(root==NULL) return ans;
+    queue <pair<TreeNode<int> *, int>> q;
+    q.push({root, 0});
+    while(!q.empty()){
+        auto temp= q.front();
+        q.pop();
+        TreeNode<int> *node= temp.first;
+        int currhd= temp.second;
+        if(mp.find(currhd)==mp.end()){
+            mp[currhd]= node->val;
+        }
+        if(node->left){
+             q.push({node->left, currhd-1});
+        }
+        if(node->right){
+             q.push({node->right, currhd+1});
+        }
+    }
+    for(auto it: mp){
+        ans.push_back(it.second);
+    }
+   return ans;
+}
+// tc: o(nlogn), sc: o(n)
