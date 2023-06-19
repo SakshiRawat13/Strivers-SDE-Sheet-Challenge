@@ -1,0 +1,39 @@
+ #include <bits/stdc++.h>
+ void prev(vector <int> & arr, vector <int> & heights, int n){
+   stack <int> st;
+   for(int i=0; i<n; i++){
+     while(!st.empty() && heights[st.top()]>=heights[i])
+     st.pop();
+     if(!st.empty())
+     arr[i]= st.top();
+     st.push(i);
+   }
+ }
+ void next(vector <int> & arr, vector <int> & heights, int n){
+   stack <int> st;
+   for(int i=n-1; i>=0; i--){
+     while(!st.empty() && heights[st.top()]>=heights[i])
+     st.pop();
+     if(!st.empty())
+     arr[i]= st.top();
+
+     st.push(i);
+   }
+ }
+ int largestRectangle(vector <int> & heights) {
+   int n= heights.size();
+   vector <int> prevSmallest(n, -1), nextSmallest(n, -1);
+   prev(prevSmallest, heights, n);
+   next(nextSmallest, heights, n);
+   long long maxArea= 0;
+   for(int i=0; i<n; i++){
+     long long currArea= 0;
+     int l= heights[i];
+     if(nextSmallest[i]==-1) nextSmallest[i]= n;
+     int b= nextSmallest[i]-prevSmallest[i] -1;
+     currArea= l*b;
+     maxArea= max(maxArea, currArea);
+   }
+   return maxArea;
+ }
+ // tc: o(n), sc: o(n)
