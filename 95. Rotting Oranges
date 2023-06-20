@@ -1,0 +1,42 @@
+#include <queue>
+int dx[]= {-1, 0, 1, 0};
+int dy[]= {0, 1, 0, -1};
+int minTimeToRot(vector<vector<int>>& grid, int n, int m)
+{
+    int totFresh= 0;
+    vector <vector <bool>> vis(n, vector <bool> (m, false));
+    queue <pair<pair<int, int>, int>> q;
+    for(int i=0; i<n; i++){
+        for(int j=0; j<m; j++){
+            if(grid[i][j]==2){
+                q.push({{i, j}, 0});
+                vis[i][j]= 1;
+            }
+            else if(grid[i][j]==1)
+            totFresh++;
+        }
+    }
+    int totaltime= 0, rotted= 0;
+    while(!q.empty()){
+        auto temp= q.front();
+        q.pop();
+        int t= temp.second;
+        int r= temp.first.first;
+        int c= temp.first.second;
+        totaltime= max(totaltime, t);
+        for(int i=0; i<4; i++){
+            int nr= r + dx[i];
+            int nc= c + dy[i];
+            if(nr<n && nr>=0 && nc<m && nc>=0 && vis[nr][nc]==0 &&
+             grid[nr][nc]==1){
+                vis[nr][nc]=1;
+                q.push({{nr, nc}, t + 1});
+                rotted++;
+            }
+        }
+    }
+    if(totFresh==rotted) return totaltime;
+    return -1;
+
+}
+// tc: o(n*m) sc: o(n*m)
