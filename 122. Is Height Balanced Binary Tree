@@ -1,0 +1,14 @@
+pair<bool, int> f(BinaryTreeNode<int>* root){
+    if(root==NULL) return {true, 0};
+    pair <bool, int> left= f(root->left);
+    pair <bool, int> right= f(root->right);
+    pair <bool, int> ans;
+    ans.second= 1 + max(left.second, right.second);
+    ans.first= (left.first && right.first 
+    && (abs(left.second - right.second)<=1));
+    return ans;
+}
+bool isBalancedBT(BinaryTreeNode<int>* root) {
+    return f(root).first;
+}
+// tc: o(n), sc: o(n)
