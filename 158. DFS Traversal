@@ -1,0 +1,30 @@
+void dfs(int node, vector<int> adjLis[], vector <bool> &vis,
+vector<int> &curr){
+    vis[node]=1;
+    curr.push_back(node);
+    for(auto v: adjLis[node]){
+        if(!vis[v])
+        dfs(v, adjLis, vis, curr);
+    }
+}
+vector<vector<int>> depthFirstSearch(int v, int e, vector<vector<int>> &edges)
+{
+    
+    vector <bool> vis(v, 0);
+    vector <int> adjLis[v];
+    vector <vector<int>> ans;
+    for(auto it: edges){
+        int u= it[0], v= it[1];
+        adjLis[u].push_back(v);
+        adjLis[v].push_back(u);
+    }
+    for(int i=0; i<v; i++){
+         if(!vis[i]){
+             vector <int> curr;
+             dfs(i, adjLis, vis, curr);
+             ans.push_back(curr);
+         }
+    }
+    return ans;
+}
+// tc: o(v+e), sc: O(v^2)
