@@ -1,0 +1,25 @@
+TreeNode<int> * getlastRight(TreeNode<int> *root){
+    if(root->right==NULL ) return root;
+    TreeNode<int> *p = root;
+    while(p->right)
+    p= p->right;
+
+    return p;
+}
+TreeNode<int> *flattenBinaryTree(TreeNode<int> *root)
+{
+    if(root==NULL) return NULL;
+    
+    if(root->left==NULL){
+        flattenBinaryTree(root->right);
+        return root;
+    }
+    TreeNode<int> *temp= root->right;
+    root->right= root->left;
+    root->left=NULL;
+    TreeNode<int> *last= getlastRight(root->right);
+    last->right= temp;
+    flattenBinaryTree(root->right);
+    return root;
+}
+// tc: o(n), sc: o(n)
