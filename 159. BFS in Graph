@@ -1,0 +1,36 @@
+#include <bits/stdc++.h> 
+vector<int> BFS(int v, vector<pair<int, int>> edges)
+{
+   vector <int> adjlis[v];
+   for(auto it: edges){
+       int u= it.first;
+       int v= it.second;
+       adjlis[u].push_back(v);
+       adjlis[v].push_back(u);
+   }
+   queue <int> q;
+   vector <int> ans;
+   vector <bool> vis(v, false);
+   for(int i = 0; i < v; i++){
+        sort(adjlis[i].begin(), adjlis[i].end());
+    }
+   for(int i=0; i<v; i++){
+          if(vis[i]==0){
+              q.push(i);
+              vis[i]= true;
+              while(!q.empty()){
+                  int node= q.front();
+                  ans.push_back(node);
+                  q.pop();
+                  for(auto it: adjlis[node]){
+                      if(!vis[it]){
+                          vis[it]=1;
+                          q.push(it);
+                      }
+                  }
+              }
+          }
+   }
+   return ans;
+}
+// tc: o(v+e), sc: o(v^2)
