@@ -1,0 +1,17 @@
+#include <bits/stdc++.h>
+int maxProfit(vector<int> &values, vector<int> &weights, int n, int w)
+{   vector<int> curr(w+1, 0), next(w+1, 0);
+    int maxi= 0;
+    for(int i= n-1; i>=0; i--){
+       for(int j= 0; j<=w; j++){
+            int take= 0, nottake= 0;
+	        nottake= next[j];
+	        if(j-weights[i]>=0)
+	        take= values[i] + next[j-weights[i]];
+			curr[j]= max(take, nottake);
+	   }
+	   next= curr;
+	}
+	return curr[w];
+}
+// tc: o(n*w), sc: o(w)
