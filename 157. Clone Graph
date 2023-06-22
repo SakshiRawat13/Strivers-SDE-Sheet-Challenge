@@ -1,0 +1,26 @@
+#include <bits/stdc++.h> 
+graphNode *cloneGraph(graphNode *node)
+{
+    map <graphNode *, graphNode *> mp;
+	queue <graphNode *> q;
+	q.push(node);
+	while(!q.empty()){
+		graphNode *temp= q.front();
+		if(mp.find(temp)==mp.end())
+		mp[temp]= new graphNode(temp->data);
+		q.pop();
+		for(auto x: temp->neighbours){
+			if(mp.find(x)!=mp.end()){
+             mp[temp]->neighbours.push_back(mp[x]);
+			}
+			else{
+				mp[x]= new graphNode(x->data);
+				mp[temp]->neighbours.push_back(mp[x]);
+				q.push(x);
+			}
+			
+		}
+	}
+    return mp[node];
+}
+// tc: o(v+e), sc: o(v)
