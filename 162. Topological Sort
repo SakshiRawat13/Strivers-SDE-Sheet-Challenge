@@ -1,0 +1,32 @@
+#include <bits/stdc++.h> 
+vector<int> topologicalSort(vector<vector<int>> &edges, int v, int e)  {
+    vector <int> ans;
+    vector <int> adjLis[v];
+    for(auto it: edges){
+        int u= it[0];
+        int v= it[1];
+        adjLis[u].push_back(v);
+    }
+    vector <int> indegree(v, 0);
+    for(int i=0; i<v; i++){
+        for(auto it: adjLis[i])
+        indegree[it]++;
+    }
+    queue <int> q;
+    for(int i=0; i<v; i++){
+        if(indegree[i]==0)
+        q.push(i);
+    }
+    while(!q.empty()){
+        int node= q.front();
+        q.pop();
+        ans.push_back(node);
+        for(auto it: adjLis[node]){
+            indegree[it]--;
+            if(indegree[it]==0)
+            q.push(it);
+        }
+    }
+    return ans;
+}
+// tc: o(v+e), sc: o(v)
