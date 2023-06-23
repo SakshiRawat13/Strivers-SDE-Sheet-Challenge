@@ -1,0 +1,38 @@
+#include <queue>
+int dx[]= {-1, -1, -1, 0, 0, 1, 1, 1};
+int dy[]= {-1, 0, 1, -1, 1, -1, 0, 1};
+void bfs(int r, int c, vector <vector<bool>> &vis, int** arr,
+int n, int m){
+    vis[r][c]=1;
+    queue <pair<int, int>> q;
+    q.push({r, c});
+    while(!q.empty()){
+        int row= q.front().first;
+        int col= q.front().second;
+        q.pop();
+        for(int i=0; i<8; i++){
+            int nr= row + dx[i];
+            int nc= col + dy[i];
+            if(nr>=0 && nr<n && nc>=0 && nc<m && !vis[nr][nc]
+            && arr[nr][nc]==1){
+                vis[nr][nc]=1;
+                q.push({nr, nc});
+            }
+        }
+    }
+}
+int getTotalIslands(int** arr, int n, int m)
+{
+   vector <vector<bool>> vis(n, vector<bool> (m, 0));
+   int cnt= 0;
+   for(int i=0; i<n; i++){
+       for(int j=0; j<m; j++){
+            if(arr[i][j]==1 && !vis[i][j]){
+                cnt++;
+                bfs(i, j, vis, arr, n, m);
+            }
+       }
+   }
+   return cnt;
+}
+// tc: o(n*m), sc: o(n*m)
