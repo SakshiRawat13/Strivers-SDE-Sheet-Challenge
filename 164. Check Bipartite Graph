@@ -1,0 +1,37 @@
+bool check(int node, int color, vector <int> &vis, vector <int> adjList[]){
+	vis[node]= color;
+	for(auto it: adjList[node]){
+		if(vis[it]==-1){
+			if(check(it, !color, vis, adjList))
+			return true;
+		}
+		else{
+			if(vis[it]==vis[node])
+			return true;
+		}
+	}
+    return false;
+}
+bool isGraphBirpatite(vector<vector<int>> &edges) {
+	int n= edges.size();
+	vector <int> adjList[n];
+	for(int i=0; i<n; i++){
+		for(int j=0; j<n; j++){
+			if(i==j)
+			continue;
+			if(edges[i][j]){
+				adjList[i].push_back(j);
+				adjList[j].push_back(i);
+			}
+		}
+	}
+	vector <int> vis(n, -1);
+	for(int i=0; i<n; i++){
+		if(vis[i]==-1){
+			if(check(i, 0, vis, adjList))
+			return false;
+		}
+	}
+	return true;
+}
+// tc: o(n^2), sc: o(n)
