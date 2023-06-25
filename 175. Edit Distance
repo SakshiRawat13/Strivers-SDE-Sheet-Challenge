@@ -1,0 +1,30 @@
+int editDistance(string str1, string str2)
+{   
+    int n= str1.length(), m= str2.length();
+    vector <vector<int>> dp(n+1, vector <int> (m+1, 0));
+    for(int i=0; i<=n; i++){
+        for(int j=0; j<=m; j++){
+            if(i==0){
+                 dp[0][j]= j;
+            }
+            else if(j==0){
+                dp[i][0]= i;
+            }
+            else{
+                if(str1[i-1]==str2[j-1]){
+                    dp[i][j]= dp[i-1][j-1];
+                }
+                else{
+                    int op1, op2, op3;
+                    op1= dp[i-1][j];
+                    op2= dp[i-1][j-1];
+                    op3= dp[i][j-1];
+                    dp[i][j]= 1 + min(op1, min(op2, op3));
+                }
+            }
+        }
+    }
+    return dp[n][m];
+
+}
+// tc: o(n*m), sc: o(n*m)
