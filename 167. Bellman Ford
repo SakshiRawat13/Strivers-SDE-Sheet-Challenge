@@ -1,0 +1,28 @@
+#include <bits/stdc++.h> 
+int bellmonFord(int n, int m, int src, int dest, vector<vector<int>> &edges) {
+    vector<pair<int, int>> adj[n+1];
+    for(auto it: edges){
+        int u= it[0], v= it[1], wt= it[2]; 
+        adj[u].push_back({v, wt});
+    }
+    vector <int> dist(n+1, 1e9);
+    dist[src]= 0;
+    for(int k=1; k<=n-1; k++){
+        queue <int> q;
+        q.push(src);
+        while(!q.empty()){
+            int u= q.front();
+            q.pop();
+            for(auto it: adj[u]){
+                int v= it.first;
+                int wt= it.second;
+                if(dist[u] != 1e9 && dist[u] + wt < dist[v]){
+                    dist[v]= dist[u] + wt;
+                    q.push(v);
+                }
+            }
+        }
+    }
+    return dist[dest];
+}
+// tc: o(v+e), sc: o(n)
