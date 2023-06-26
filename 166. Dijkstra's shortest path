@@ -1,0 +1,32 @@
+#include <bits/stdc++.h> 
+vector<int> dijkstra(vector<vector<int>> &vec,
+int n, int edges, int src) {
+    vector <int> dist(n, INT_MAX);
+    dist[src]= 0;
+    vector <pair<int, int>> adj[n];
+    for(auto it: vec){
+        int u= it[0];
+        int v= it[1];
+        int wt= it[2];
+        adj[u].push_back({v, wt});
+        adj[v].push_back({u, wt});
+    }
+
+    priority_queue <pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
+    pq.push({0, src});
+    while(!pq.empty()){
+        auto temp= pq.top();
+        pq.pop();
+        int u= temp.second;
+        int currdistance= temp.first;
+
+        for(auto it: adj[u]){
+            int v= it.first, wt= it.second;
+            if(dist[u] + wt < dist[v]){
+                dist[v]= dist[u] + wt;
+                pq.push({dist[v], v});
+            }
+        }
+    }
+    return dist;
+}
