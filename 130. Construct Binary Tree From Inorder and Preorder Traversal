@@ -1,0 +1,19 @@
+TreeNode<int> *f(int &index, int left, int right, vector<int> &inorder,
+vector<int> &preorder){
+    if(left>right)
+    return NULL;
+    int k= left;
+    while(inorder[k]!=preorder[index]){
+        k++;
+    }
+    TreeNode <int> *root= new TreeNode <int> (preorder[index]);
+    index++;
+    root->left= f(index, left, k-1, inorder, preorder);
+    root->right= f(index, k+1, right, inorder, preorder);
+    return root;
+}
+TreeNode<int> *buildBinaryTree(vector<int> &inorder, vector<int> &preorder)
+{   int rootindex= 0;
+	return f(rootindex, 0, preorder.size()-1, inorder, preorder);
+}
+// tc: o(n*n), sc: o(n)
