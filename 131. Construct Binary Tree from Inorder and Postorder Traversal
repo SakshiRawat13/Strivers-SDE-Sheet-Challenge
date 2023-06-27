@@ -1,0 +1,20 @@
+TreeNode<int>* f(int &rootindex, int left, int right, 
+vector<int>& postOrder, vector<int>& inOrder){
+     if(left>right)
+     return NULL;
+     int k= left;
+     while(inOrder[k]!=postOrder[rootindex])
+     k++;
+     TreeNode<int>* root= new TreeNode<int>(postOrder[rootindex]);
+     rootindex--;
+     root->right= f(rootindex, k+1, right, postOrder, inOrder);
+     root->left= f(rootindex, left, k-1, postOrder, inOrder);
+     
+     return root;
+
+}
+TreeNode<int>* getTreeFromPostorderAndInorder(vector<int>& postOrder, vector<int>& inOrder) 
+{    int rootindex= postOrder.size()-1;
+	return f(rootindex, 0, inOrder.size()-1, postOrder, inOrder);
+}
+// tc: o(n*n), sc: o(n)
