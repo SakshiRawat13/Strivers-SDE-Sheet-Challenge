@@ -1,0 +1,40 @@
+#include <bits/stdc++.h> 
+bool isPossible(int color, int node, vector <int> &col,
+vector <int> adj[]){
+    for(auto v: adj[node]){
+        if(col[v]==color)
+        return false;
+    }
+    return true;
+}
+bool dfs(int node, int m, vector <int> &col, vector <int> adj[], int n){
+    if(node==n)
+    return true;
+
+    for(int i=0; i<m; i++){
+        if(isPossible(i, node, col, adj)){
+            col[node]= i;
+            if(dfs(node+1, m, col, adj, n))
+            return true;
+            col[node]=-1;
+        }
+    }
+    return false;
+}
+string graphColoring(vector<vector<int>> &mat, int m) {
+    
+    int n= mat.size();
+    vector <int> adj[n];
+
+    for(int i=0; i<n; i++){
+        for(int j=0; j<n; j++){
+            if(mat[i][j]){
+                adj[i].push_back(j);
+                adj[j].push_back(i);
+            }
+        }
+    }
+    vector <int> col(n, -1);
+    return dfs(0, m, col, adj, n) ? "YES" : "NO";
+}
+// tc: o( (n*m)^n) sc: o(n) recursion stack space
