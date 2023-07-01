@@ -1,0 +1,76 @@
+class Trie {
+
+public:
+
+    /** Initialize your data structure here. */
+    class trienode{
+        public:
+        char val;
+        int cnt;
+        bool endshere;
+        trienode* child[26];
+
+        // constructor
+        trienode(int ind){
+            val= ind + 'a';
+            cnt=0;
+            endshere= false;
+            for(int i=0; i<=25; i++){
+                child[i]= NULL;
+            }
+        }
+    };
+    trienode* getnode(int index){
+        trienode* currnode= new trienode(index);
+        //currnodecnt=0;
+        return currnode;
+    }
+    trienode* root;
+    
+    Trie() {
+        root= getnode('/'- 'a');
+    }
+
+    /** Inserts a word into the trie. */
+    void insert(string word) {
+         trienode * curr= root;
+         for(int i=0; i<word.length(); i++){
+             int index= word[i]-'a';
+             if(curr->child[index]==NULL){
+                 curr->child[index]= getnode(index);
+             }
+            curr= curr->child[index];
+         }
+         curr->endshere= true; 
+    }
+
+    /** Returns if the word is in the trie. */
+    bool search(string word) {
+         trienode * curr= root;
+         for(int i=0; i<word.length(); i++){
+             int index= word[i]-'a';
+             if(curr->child[index]==NULL){
+                 return false;
+             }
+            curr= curr->child[index];
+         }
+         if(curr->endshere== true)
+         return true; 
+         return false;
+    }
+
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    bool startsWith(string prefix) {
+         trienode * curr= root;
+         for(int i=0; i<prefix.length(); i++){
+             int index= prefix[i]-'a';
+             if(curr->child[index]==NULL){
+                 return false;
+             }
+            curr= curr->child[index];
+         }
+         return true; 
+    }
+};
+// tc: search/ startswith, insert-> o(n) * q =for number of queries
+// sc: o(n) legth of word * q =for number of queries
