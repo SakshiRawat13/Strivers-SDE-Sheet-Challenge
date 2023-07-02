@@ -1,0 +1,73 @@
+#include <bits/stdc++.h> 
+class trienode{
+    public:
+    char val;
+    int cnt;
+    bool endshere;
+    trienode* child[26];
+
+    // constructor
+    trienode(int ind){
+    val= ind + 'a';
+    cnt=0;
+    endshere= false;
+    for(int i=0; i<=25; i++){
+    child[i]= NULL;
+       }
+    }
+};
+
+trienode* getnode(int index){
+    trienode* currnode= new trienode(index);
+    return currnode;
+}
+void insert(string word, trienode * root) {
+    trienode * curr= root;
+    for(int i=0; i<word.length(); i++){
+        int index= word[i]-'a';
+        if(curr->child[index]==NULL){
+            curr->child[index]= getnode(index);
+            }
+            curr= curr->child[index];
+        }
+        curr->endshere= true; 
+    }
+bool search(string word, trienode * root) {
+    trienode * curr= root;
+     for(int i=0; i<word.length(); i++){
+         int index= word[i]-'a';
+         if(curr->child[index]==NULL){
+             return false;
+             }
+            curr= curr->child[index];
+         }
+        if(curr->endshere== true)
+        return true; 
+        return false;
+}
+bool f(string & target, int ind, trienode* root, vector <int> & dp){
+    if(ind==target.length())
+    {
+        return true;
+    }
+    if(dp[ind]!=-1)
+    return dp[ind];
+    for(int i= ind; i<target.length(); i++){
+        if(search(target.substr(ind, i -ind + 1), root)){
+            if(f(target, i+1, root, dp))
+            return dp[ind]= true;
+        }
+    }
+    return dp[ind]= false;
+}
+bool wordBreak(vector < string > & arr, int n, string & target) {
+    trienode* root= getnode('/'-'a');
+    int k= target.length();
+    vector <int> dp(k, -1);
+    for(auto str: arr){
+       insert(str, root);
+    }
+    return f(target, 0, root, dp);
+}
+// tc: o(n^2)
+// sc: o(size of arr words + length of target)
