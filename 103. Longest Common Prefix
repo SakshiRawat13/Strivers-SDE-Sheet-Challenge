@@ -1,0 +1,35 @@
+string longestCommonPrefix(vector<string> &arr, int n)
+{
+    if(n==0)
+    return "";
+    if(n==1)
+    return arr[0];
+    
+    string commonstr="";
+    string a= arr[0];
+    string b= arr[1];
+    for (int i = 0; i < a.length() && i < b.length(); i++) {
+      if (a[i] != b[i])
+        break;
+      commonstr += a[i];
+    }
+    if (commonstr == "")
+    return "";
+
+    for (int k = 1; k < n - 1; k++){
+        if(commonstr == arr[k+1].substr(0 + commonstr.length()))
+        continue;
+        string newstr= "";
+        for(int i=0; i<commonstr.length() && i < arr[k].length() && i < arr[k+1].length(); i++) {
+           if (arr[k][i] != arr[k+1][i])
+           break;
+           newstr += arr[k][i];
+        }
+        if (newstr == "")
+        return "";
+        commonstr= newstr;
+    } 
+    
+    return commonstr;  
+}
+// tc: o(n*m), sc: o(n) n is the size of the longest common string that is to be returned
