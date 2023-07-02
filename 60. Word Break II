@@ -1,0 +1,79 @@
+#include <bits/stdc++.h> 
+class trienode{
+    public:
+    char val;
+    int cnt;
+    bool endshere;
+    trienode* child[26];
+
+    // constructor
+    trienode(int ind){
+    val= ind + 'a';
+    cnt=0;
+    endshere= false;
+    for(int i=0; i<=25; i++){
+        child[i]= NULL;
+       }
+    }
+};
+
+trienode* getnode(int index){
+    trienode* currnode= new trienode(index);
+    return currnode;
+}
+void insert(string word, trienode * root) {
+    trienode * curr= root;
+    for(int i=0; i<word.length(); i++){
+        int index= word[i]-'a';
+        if(curr->child[index]==NULL){
+            curr->child[index]= getnode(index);
+            }
+            curr= curr->child[index];
+        }
+        curr->endshere= true; 
+    }
+bool search(string word, trienode * root) {
+    trienode * curr= root;
+     for(int i=0; i<word.length(); i++){
+         int index= word[i]-'a';
+         if(curr->child[index]==NULL){
+             return false;
+             }
+            curr= curr->child[index];
+         }
+        if(curr->endshere== true)
+        return true; 
+        return false;
+}
+
+
+void f(string &s, string curr, int i, vector <string> & ans,
+trienode * root){
+    if(i==s.length()){
+        ans.push_back(curr);
+        return ;
+    }
+    curr+=" ";
+    for(int ind= i; ind<s.length(); ind++){
+        
+        if(search(s.substr(i, ind - i +1), root)){
+            string str= curr + s.substr(i, ind - i +1);
+            f(s, str, ind+1, ans, root);
+        }
+    }
+}
+vector<string> wordBreak(string &s, vector<string> &dictionary)
+{   vector <string> ans;
+    trienode* root= getnode('/'-'a');
+    for(auto str: dictionary){
+        insert(str, root);
+    }
+    for(int i=0; i<s.length(); i++){
+        if(search(s.substr(0, i+1), root)){
+            f(s, s.substr(0, i+1), i+1, ans, root);
+        }
+    }
+    return ans;
+}
+// sc: size of dictionary
+// tc: exponential
