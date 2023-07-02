@@ -1,0 +1,87 @@
+#include <bits/stdc++.h> 
+class Trie{
+    
+    public:
+    class trienode{
+        public:
+        char val;
+        int cnt;
+        int endshere;
+        trienode* child[26];
+
+        trienode(int index){
+            val= index + 'a';
+            cnt= 0;
+            endshere= 0;
+            for(int i=0; i<26; i++){
+                child[i]=NULL;
+            }
+        }
+
+    };
+    trienode* getnode(int index){
+        trienode* curr= new trienode(index);
+        return curr;
+    }
+
+    trienode* root;
+
+    Trie(){
+        root= getnode('/'-'a');
+    }
+
+    void insert(string &word){
+        trienode* curr= root;
+        for(int i=0; i<word.length(); i++){
+            int index= word[i]-'a';
+            if(curr->child[index]==NULL){
+                curr->child[index]= getnode(index);
+            }
+            
+            curr= curr->child[index];
+            curr->cnt++;
+            
+        } 
+        curr->endshere++;
+    }
+
+    int countWordsEqualTo(string &word){
+        trienode* curr= root;
+        for(int i=0; i<word.length(); i++){
+            int index= word[i]-'a';
+            if(curr->child[index]==NULL){
+                return 0;
+            }
+            curr= curr->child[index];
+        }
+        return curr->endshere;
+    }
+
+    int countWordsStartingWith(string &word){
+        trienode* curr= root;
+        for(int i=0; i<word.length(); i++){
+            int index= word[i]-'a';
+            if(curr->child[index]==NULL){
+                return 0;
+            }
+            curr= curr->child[index];
+        }
+        return curr->cnt;
+    } 
+
+    void erase(string &word){
+        trienode* curr= root;
+        trienode* p= curr->child[word[0]-'a'];
+        trienode* q= p;
+        for(int i=1; i<word.length(); i++){
+            int index= word[i]-'a';
+            p= p->child[index];
+            q->cnt--;
+            q= p;
+        }
+        q->cnt--;
+        q->endshere--;
+        
+    }
+};
+// tc: o(n*q), sc: o(n*q)
