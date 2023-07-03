@@ -1,0 +1,16 @@
+TreeNode<int>* solve(int s, int e, vector <int> &arr){
+    if(s > e)
+    return NULL;
+    int mid= s + (e-s)/2;
+    TreeNode<int>* root= new TreeNode<int>(arr[mid]);
+
+    root->left= solve(s, mid-1, arr);
+    root->right= solve(mid+1, e, arr);
+    return root;
+
+}
+TreeNode<int>* sortedArrToBST(vector<int> &arr, int n)
+{   int low= 0, high= n-1;
+    return solve(low, high, arr);
+}
+// tc: o(n), sc: o(logn)
