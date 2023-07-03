@@ -1,0 +1,36 @@
+class BSTiterator
+{   public:
+    stack <TreeNode<int> *> st;
+    BSTiterator(TreeNode<int> *root)
+    {
+        while(root){
+            st.push(root);
+            root= root->left;
+        }
+    }
+
+    int next()
+    {
+        if(!st.empty()){
+            TreeNode<int> *curr= st.top();
+            st.pop();
+            int data= curr->data;
+            TreeNode<int>* temp = curr->right;
+
+            while(temp){
+              st.push(temp);
+              temp = temp->left;
+            }
+            return data; 
+        }
+        return -1;
+    }
+
+    bool hasNext()
+    {
+        if(st.empty())
+        return false;
+        return true;
+    }
+};
+//tc: o(n), sc: o(h) height of b tree
