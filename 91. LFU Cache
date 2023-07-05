@@ -1,0 +1,132 @@
+#include <bits/stdc++.h> 
+
+
+class LFUCache
+{
+    class node{
+        public:
+        int key;
+        int val;
+        int cnt;
+        node* next;
+        node* prev;
+
+        node(int key, int val){
+            this->key= key;
+            this->val= val;
+            cnt= 1;
+            next= nullptr;
+            prev= nullptr;
+        }
+};
+class list{
+        public:
+        node* head;
+        node* tail;
+        int size;
+
+        list(){
+            size= 0;
+            head= new node(-1, -1);
+            tail= new node(-1, -1);
+            head->next= tail;
+            tail->prev= head;
+        }
+        void addnode(node* currnode){
+            node* nextnode= head->next;
+            currnode->next= nextnode;
+            nextnode->prev= currnode;
+            head->next= currnode;
+            currnode->prev= head;
+            size++;
+        }
+        void delnode(node* currnode){
+            node* nextnode= currnode->next;
+            node* prevnode= currnode->prev;
+            
+            prevnode->next= nextnode;
+            nextnode->prev= prevnode;
+            size--;
+        }
+};
+public:
+    int capacity;
+    int currsize;
+    int minfreq;
+    map <int, node*> keynodemap;
+    map <int, list*> freqlistmap;
+
+    LFUCache(int capacity)
+    {   this->capacity= capacity;
+        currsize= 0;
+        minfreq= 0;
+    }
+
+    void upadatefreqlist(node* currnode){
+        keynodemap.erase(currnode->key);
+        int freq= currnode->cnt;
+        freqlistmap[freq]->delnode(currnode);
+        if(freqlistmap[freq]->size==0 and freq == minfreq){
+            minfreq++;
+        }
+        
+        list* nextfreqlist= new list();
+        if(freqlistmap.find(currnode->cnt + 1)!=freqlistmap.end()){
+            nextfreqlist= freqlistmap[currnode->cnt + 1];
+        }
+        currnode->cnt+=1;
+        nextfreqlist->addnode(currnode);
+        freqlistmap[currnode->cnt]= nextfreqlist;
+        keynodemap[currnode->key]= currnode;
+    }
+
+    int get(int key)
+    {
+        if(keynodemap.find(key)!=keynodemap.end()){
+            node* currnode= keynodemap[key];
+            int value= currnode->val;
+            upadatefreqlist(currnode);
+            return value;
+        }
+        return -1;
+        
+    }
+
+    void put(int key, int value)
+    {
+        // if it alredy exists
+        // if it dosnt exist  
+        // a. cache size is full
+        // b. cache size is nt full
+
+        if(capacity==0)
+        return;
+        
+        if(keynodemap.find(key)!=keynodemap.end()){
+            node* currnode= keynodemap[key];
+            currnode->val= value;
+            upadatefreqlist(currnode);
+        }
+        else{
+            if(currsize == capacity){
+                list* currlist= freqlistmap[minfreq];
+                keynodemap.erase(currlist->tail->prev->key);
+                currlist->delnode(currlist->tail->prev);
+                
+                currsize--;
+            }
+            currsize++;
+
+            minfreq= 1;
+            list* basefreqlist= new list();
+            if(freqlistmap.find(1)!=freqlistmap.end()){
+               basefreqlist= freqlistmap[1];
+            }
+            
+            node* newnode= new node(key, value);
+            basefreqlist->addnode(newnode);
+            freqlistmap[1]= basefreqlist;
+            keynodemap[key]= newnode;
+        }
+    }
+};
