@@ -1,0 +1,47 @@
+class minStack
+{
+	public:
+		
+		stack <pair<int, int>> st;
+		minStack() 
+		{ 
+		
+		}
+		void push(int num)
+		{
+			if(st.empty()){
+				st.push({num, num});
+			}
+			else{
+				if(st.top().second < num){
+					st.push({num, st.top().second});
+				}
+				else{
+					st.push({num, num});
+				}
+			}
+		}
+		int pop()
+		{
+			if(st.empty())
+			return -1;
+			int num= st.top().first;
+			st.pop();
+			return num;
+		}
+		int top()
+		{
+			if(st.empty())
+			return -1;
+			int num= st.top().first;
+			return num;
+		}
+		int getMin()
+		{
+			if(st.empty())
+			return -1;
+			int num= st.top().second;
+			return num;
+		}
+};
+// tc: o(n), sc: o(n)
