@@ -1,0 +1,18 @@
+#include <bits/stdc++.h> 
+bool areAnagram(string &str1, string &str2){
+   vector <int> hash(26, 0);
+   int n= str1.length(), m= str2.length();
+   if(n!=m)
+   return false;
+
+   for(int i=0; i<n; i++){
+       hash[str1[i]-'a']++;
+       hash[str2[i]-'a']--;
+   }
+   for(int i=0; i<26; i++){
+       if(hash[i]!=0)
+       return false;
+   }
+   return true;
+}
+// tc: o(max(26, n)), sc: o(1)
