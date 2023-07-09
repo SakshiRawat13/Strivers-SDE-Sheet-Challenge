@@ -1,0 +1,17 @@
+void traverse(TreeNode<int>* root, int &k, int &p){
+    if(root==NULL)
+    return;
+    traverse(root->right, k, p);
+    k--;
+    if(k==0){
+       p = root->data;
+       return ;
+    }
+    traverse( root->left, k, p);
+}
+int KthLargestNumber(TreeNode<int>* root, int k) 
+{
+     int p=-1;
+    traverse(root, k, p);
+     return p;
+}
