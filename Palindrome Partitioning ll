@@ -1,0 +1,31 @@
+#include <bits/stdc++.h> 
+bool ispalindrome(string str){
+
+    for(int i=0, j= str.length()-1; i<j ; i++, j--){
+         if(str[i]!=str[j])
+         return false;
+    }
+    return true;
+}
+int solve(string & s, int index,  vector <int> &dp){
+    int n= s.length();
+    if(index==n){
+       return 0;
+    }
+    if(dp[index]!=-1)
+    return dp[index];
+    int ans= INT_MAX;
+    for(int i= index; i<n; i++){
+        if(ispalindrome(s.substr(index, i-index+1))){
+            
+            ans= min(ans, 1 + solve(s, i+1, dp));
+        }
+    }
+    return dp[index]= ans;
+}
+int palindromePartitioning(string str) {
+    int n= str.length();
+    vector <int> dp(n, -1);
+    return solve(str, 0, dp) -1;
+}
+// tc: o(n^2), sc: o(n)
