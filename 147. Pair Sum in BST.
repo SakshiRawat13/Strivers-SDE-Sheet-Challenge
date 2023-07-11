@@ -1,0 +1,17 @@
+bool solve(BinaryTreeNode<int> *root, int k, unordered_set <int> &st){
+    if(root==NULL)
+    return false;
+    if(st.count(k-root->data)!=0)
+    return true;
+    st.insert(root->data);
+    return solve(root->left, k, st) or solve(root->right, k, st);
+}
+bool pairSumBst(BinaryTreeNode<int> *root, int k)
+{
+    unordered_set <int> st;
+    if(root==NULL)
+    return false;
+    return solve(root, k, st);
+    
+}
+// tc: o(n), sc: o(n)
