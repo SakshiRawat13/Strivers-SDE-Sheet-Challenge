@@ -1,0 +1,46 @@
+bool traverse(stack <TreeNode<int> *> &st, TreeNode<int> *root,
+TreeNode<int> *leaf){
+    if(root==NULL)
+    return false;
+
+    st.push(root);
+
+    if(root->data==leaf->data)
+    return true;
+    
+    
+    bool leftans= traverse(st, root->left, leaf);
+    bool rightans= traverse(st, root->right, leaf);
+
+    if(leftans || rightans){
+       return true;
+    }
+    st.pop();
+    return false;
+}
+TreeNode<int> * invertBinaryTree(TreeNode<int> *root, TreeNode<int> *leaf)
+{   if (!root)
+    return NULL;
+	stack <TreeNode<int> *> st;
+    TreeNode<int> *temp= root;
+
+    traverse(st, temp, leaf);
+    TreeNode <int> * new_root= st.top();
+    st.pop();
+    TreeNode <int> * parent= new_root;
+    while(!st.empty()){
+        TreeNode <int> * curr= st.top();
+        st.pop();
+        if(curr->left==parent){
+            curr->left= NULL;
+            parent->left= curr;
+        }
+        else{
+            curr->right= curr->left;
+            curr->left= NULL;
+            parent->left= curr;
+        }
+        parent= curr;
+    }
+    return new_root;
+}
