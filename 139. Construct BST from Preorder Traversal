@@ -1,0 +1,17 @@
+TreeNode<int>* f(vector<int> &preOrder, int &i, int l, int h){
+    if(i== preOrder.size())
+    return NULL;
+    TreeNode <int> * curr= new TreeNode<int> (preOrder[i]);
+    i++;
+    if(i<preOrder.size() && preOrder[i]>= l && preOrder[i]<= curr->data)
+    curr->left= f(preOrder, i, l, curr->data);
+    if(i<preOrder.size() && preOrder[i]>= curr->data && preOrder[i]< h)
+    curr->right= f(preOrder, i, curr->data + 1, h);
+    
+    return curr;
+}
+TreeNode<int>* preOrderTree(vector<int> &preOrder){
+    int i= 0;
+    return f(preOrder, i, INT_MIN, INT_MAX);
+    
+}
