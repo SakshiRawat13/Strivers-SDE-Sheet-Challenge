@@ -1,0 +1,32 @@
+#include <bits/stdc++.h> 
+string writeAsYouSpeak(int n) 
+{
+	string ans="1";
+    while(--n){
+      int i=0;
+      char num= ans[0];
+      string curr="";
+      int len= ans.length();
+      int cnt= 1;
+      while(i<len-1){
+          if(ans[i]!=ans[i+1]){
+              curr+= to_string(cnt);
+              curr+= num;
+
+              i++;
+              cnt= 1;
+              num= ans[i];
+          }
+          else{
+              cnt++;
+              i++;
+          }
+      }
+      curr+= to_string(cnt);
+      curr+= num;
+      ans= curr;
+
+      
+    }
+    return ans;	
+}
