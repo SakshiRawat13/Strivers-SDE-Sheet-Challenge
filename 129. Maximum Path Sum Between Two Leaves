@@ -1,0 +1,23 @@
+pair <long long, long long> f(TreeNode<int> *root){
+    if(root==NULL)
+    return {0, 0};
+    if(!root->left && !root->right)
+    return {root->val, root->val};
+
+
+    auto left= f(root->left);
+    auto right= f(root->right);
+
+    pair <long long, long long> ans;
+    long long temp= left.second + right.second + root->val;
+    ans.first= max(left.first, max(right.first, temp));
+    ans.second= max(left.second, right.second) + root->val;
+    return ans;
+}
+long long int findMaxSumPath(TreeNode<int> *root)
+{   if(!root or !root->left or !root->right ){
+        return -1;
+    }
+   return f(root).first;
+}
+// tc: o(n)
