@@ -1,0 +1,13 @@
+#include <bits/stdc++.h> 
+int distinctSubstring(string &word) {
+   unordered_set <string> st;
+   int n= word.length();
+   for(int i=0; i<n; i++){
+       for(int j=n-1; j>=i; j--){
+           string curr= word.substr(i, j-i+1);
+           st.insert(curr);
+       }
+   }
+   return st.size(); 
+}
+// ct: o(n^3), sc: o(n^2)
