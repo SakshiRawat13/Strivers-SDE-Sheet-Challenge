@@ -1,0 +1,10 @@
+#include <bits/stdc++.h> 
+bool findPattern(string p, string s)
+{
+    for(int i=0; i<s.length()-p.length() + 1; i++){
+        if(s.substr(i, p.length()) == p)
+        return true;
+    }
+    return false;
+}
+// tc: o((n-m) * m), sc: o(1)
