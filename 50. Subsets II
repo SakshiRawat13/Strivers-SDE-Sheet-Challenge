@@ -1,0 +1,24 @@
+#include <bits/stdc++.h> 
+void f(int i, int n, vector <int> &arr, vector <int> &curr, 
+set <vector<int>> &st){
+    if(i==n){
+        vector <int> temp= curr;
+        sort(temp.begin(), temp.end());
+        st.insert(temp);
+        return ;
+    }
+    f(i+1, n, arr, curr, st);
+    curr.push_back(arr[i]);
+    f(i+1, n, arr, curr, st);
+    curr.pop_back();
+    
+}
+vector<vector<int>> uniqueSubsets(int n, vector<int> &arr)
+{
+    set <vector<int>> st;
+    vector <int> curr;
+    f(0, n, arr, curr, st);
+    vector<vector<int>> ans(st.begin(), st.end());
+    return ans;
+}
+// tc: o(2^n), sc: o(2^n)
