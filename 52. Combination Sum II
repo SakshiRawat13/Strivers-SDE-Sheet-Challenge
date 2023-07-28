@@ -1,0 +1,31 @@
+#include <bits/stdc++.h>
+void f(int i, vector<int> &arr, int n, int target,
+ set <vector <int>> &st, vector <int> &curr){
+	 if(target==0)
+	 {   vector<int>temp= curr;
+         sort(temp.begin(),temp.end());
+		 st.insert(temp);
+		 return ;
+	 }
+    
+	 if(i==n || target<0)
+	 return ;
+
+	 if(target-arr[i]>=0){
+		 curr.push_back(arr[i]);
+		 f(i+1, arr, n, target-arr[i], st, curr);
+		 curr.pop_back();
+	 }
+	 while(i + 1 < arr.size() && arr[i] == arr[i + 1])
+	 i++ ;
+	 f(i+1, arr, n, target, st, curr);
+ }
+vector<vector<int>> combinationSum2(vector<int> &arr, int n, int target){
+	 set <vector <int>> st;
+	 vector <int> curr;
+	 f(0, arr, n, target, st, curr);
+	 vector<vector<int>> ans(st.begin(), st.end());
+	 return ans;
+}
+
+// tc: o(2^n), sc: o(no. of unique subsets)
