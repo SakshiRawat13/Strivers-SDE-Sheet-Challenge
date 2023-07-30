@@ -1,0 +1,86 @@
+#include <bits/stdc++.h> 
+
+class Trie {
+
+public:
+
+    /** Initialize your data structure here. */
+    class trienode{  
+        public:
+        char val;
+        bool endshere;
+        trienode* child[26];
+
+        // constructor
+        trienode(int ind){
+            val= ind + 'a';
+            endshere= false;
+            for(int i=0; i<=25; i++){
+                child[i]= NULL;
+            }
+        }
+    };
+    
+    trienode* getnode(int index){
+        trienode* currnode= new trienode(index);
+        return currnode;
+    }
+    
+    trienode* root;
+    
+    Trie() {
+        root= getnode('/'- 'a');
+    }
+
+    /** Inserts a word into the trie. */
+    void insert(string word) {
+         trienode * curr= root;
+         for(int i=0; i<word.length(); i++){
+             int index= word[i]-'a';
+             if(curr->child[index]==NULL){
+                 curr->child[index]= getnode(index);
+             }
+            curr= curr->child[index];
+         }
+         curr->endshere= true; 
+    }
+    bool findcmplt(string word){
+        trienode* curr= root;
+        for(int i=0; i<word.length(); i++){
+           int index= word[i]-'a';
+           if(curr->child[index]->endshere == false)
+           return false;
+
+           curr= curr->child[index];
+        }
+        return true;
+    }
+};
+string completeString(int n, vector<string> &a){
+    Trie* t= new Trie();
+    for(auto s: a){
+        t->insert(s);
+    }
+
+    int maxilen= 0;
+    vector <string> ans;
+    for(auto s : a){
+        if(t->findcmplt(s)){
+            
+            int currlen= s.length();
+            if(currlen>maxilen){
+                maxilen= currlen;
+                ans.push_back(s);
+                ans.clear();
+                ans.push_back(s);
+            }
+            else if(currlen==maxilen){
+                ans.push_back(s);
+            }
+        }
+    }
+    if(ans.size() == 0) return "None";
+    sort(ans.begin(), ans.end());
+    return ans[0];
+}
+// tc = sc = o(number of words * length of words)
