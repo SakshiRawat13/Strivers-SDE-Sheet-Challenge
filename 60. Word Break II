@@ -77,3 +77,39 @@ vector<string> wordBreak(string &s, vector<string> &dictionary)
 }
 // sc: size of dictionary
 // tc: exponential
+
+
+
+// Using recursion + backtracking
+void solve(int i, string &s, unordered_set <string> &st, vector <string> &curr,
+vector <string> &ans) {
+    int n = s.length();
+    if ( i == n) {
+        string str = "";
+        for(int i = 0; i<curr.size(); i++) {
+            if ( i != 0) {
+                str += " ";
+            }
+            str += curr[i];
+        }
+        ans.push_back(str);
+        return ;
+    }
+    string word = "";
+    for(int ind = i; ind < n; ind++) {
+        word += s[ind];
+        if(st.count(word) >= 1) {
+            curr.push_back(word);
+            solve(ind + 1, s, st, curr, ans);
+            curr.pop_back();
+        }
+    }
+}
+vector<string> wordBreak(string &s, vector<string> &dictionary)
+{   vector <string> str, ans;
+    unordered_set <string> st(dictionary.begin(), dictionary.end());
+    solve(0, s, st, str, ans);
+    return ans;
+
+}
+// tc: o(n^n) sc: o(n^~n for all combination stored)
