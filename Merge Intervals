@@ -1,20 +1,20 @@
-vector<vector<int>> mergeIntervals(vector<vector<int>> &intervals)
-{
-    sort(intervals.begin(), intervals.end());
-    int s= intervals[0][0], e= intervals[0][1];
-    vector<vector<int>> ans;
-    for(int i=1; i<intervals.size(); i++){
-        if(intervals[i][0]>e){
-           ans.push_back({s, e});
-           s= intervals[i][0];
-           e= intervals[i][1];
+vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        vector<vector<int>> ans;
+        sort(intervals.begin(), intervals.end());
+        int s = intervals[0][0], e = intervals[0][1];
+        for(int i = 1; i < intervals.size(); i++) {
+            int start = intervals[i][0], end = intervals[i][1];
+            if(start > e) {
+                ans.push_back({s, e});
+                s = start;
+                e = end;
+            }
+            else  {
+                e = max(e, end);
+            }
         }
-        else{
-            e= max(e, intervals[i][1]);
-        }
-
+        ans.push_back({s, e});
+        return ans;
     }
-    ans.push_back({s, e});
 
-    return ans;
-}
+TC: O(nlogn), sc: O(1) (not including the returning object space)
