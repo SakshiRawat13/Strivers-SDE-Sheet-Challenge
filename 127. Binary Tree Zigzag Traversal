@@ -1,31 +1,29 @@
-vector<int> zigZagTraversal(BinaryTreeNode<int> *root)
-{
-    vector <int> ans;
-    if(root==NULL) return ans;
-    queue <BinaryTreeNode<int>*> q;
-    bool flag= false;
-    q.push(root);
-    while(!q.empty()){
-        int n= q.size();
-        vector <int> curr;
-        for(int i=0; i<n; i++){
-            BinaryTreeNode<int> * temp = q.front();
-            q.pop();
-            curr.push_back(temp->data);
-            if(temp->left){
-                q.push(temp->left);
-            }
-            if(temp->right){
-                q.push(temp->right);
-            }
-            
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector <vector<int>> ans;
+        if(root == NULL) {
+            return {};
         }
-        flag= !flag;
-        if(!flag)
-        reverse(curr.begin(), curr.end());
-        for(auto x: curr)
-        ans.push_back(x);
+        queue <TreeNode*> q;
+        q.push(root);
+        while(!q.empty()) {
+            int n = q.size();
+            vector <int> store;
+            for(int i = 0; i < n; i++) {
+                TreeNode* curr = q.front();
+                q.pop();
+                store.push_back(curr->val);
+                if(curr->left) {
+                q.push(curr->left);
+                }
+                if(curr->right) {
+                    q.push(curr->right);
+                }
+            }
+            ans.push_back(store);       
+        }
+        return ans;
     }
-    return ans;
-}
-// tc: o(n), sc: o(n)
+};
+//TC: O(N), SC: O(N)
