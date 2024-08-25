@@ -1,0 +1,43 @@
+class Solution {
+  public:
+    pair <Node*, Node*> solve(Node * root) {
+        if(!root) {
+            return {NULL, NULL};
+        }
+        if(!root->left && !root->right) {
+            return {root, root};
+        }
+        pair <Node*, Node*> ans;
+        auto left = solve(root->left);
+        auto right = solve(root->right);
+        if(left.first) {
+            Node * head = left.first, * tail = left.second;
+            ans.first = head;
+            tail->right = root;
+        }
+        else {
+            ans.first = root;
+        }
+        
+        if(right.first) {
+            Node * head = right.first, * tail = right.second;
+            root->right = head;
+            ans.second = tail;
+        }
+        else {
+            ans.second = root;
+        }
+        return ans;
+    }
+    Node* bToDLL(Node* root) {
+        Node* head = solve(root).first;
+        Node * prev = NULL, * curr = head;
+        while(curr) {
+            curr->left = prev;
+            prev = curr;
+            curr = curr->right;
+        }
+        return head;
+    }
+};
+// tc : O(n), sc : O(n)
